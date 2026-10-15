@@ -1,0 +1,933 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090708">
+  <meta name="description" content="A little surprise, made with love.">
+  <title>A Little Something for You ❤️</title>
+
+  <style>
+    :root {
+      --bg: #090708;
+      --surface: #130d10;
+      --text: #fff4f5;
+      --muted: #c4aab1;
+      --red: #ed2347;
+      --bright: #ff4262;
+      --line: rgba(255, 220, 228, .13);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button { font: inherit; cursor: pointer; }
+
+    .site-root {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(ellipse at 50% 38%, rgba(126, 9, 35, .25), transparent 42%),
+        radial-gradient(ellipse at 8% 90%, rgba(103, 12, 34, .14), transparent 32%),
+        var(--bg);
+    }
+
+    .topline {
+      width: min(1100px, calc(100% - 40px));
+      margin: auto;
+      padding: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      font: 600 11px Arial, sans-serif;
+      letter-spacing: .22em;
+    }
+
+    .brand span, .last-line span { color: var(--bright); }
+
+    .top-note {
+      color: var(--muted);
+      font: 11px Arial, sans-serif;
+      letter-spacing: .08em;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 78vh;
+      padding: 70px 22px 82px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--bright);
+      font: 11px Arial, sans-serif;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: clamp(43px, 8vw, 88px);
+      font-weight: 400;
+      line-height: .99;
+      letter-spacing: -.045em;
+      margin: 0;
+      max-width: 850px;
+    }
+
+    h1 em { color: var(--bright); font-weight: 400; }
+
+    .subtitle {
+      max-width: 430px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .heart-wrap {
+      width: 110px;
+      height: 110px;
+      margin: 34px 0 30px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .heart-halo {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(237,35,71,.32);
+      border-radius: 50%;
+      animation: halo 3s ease-out infinite;
+    }
+
+    .heart-halo:nth-child(2) { animation-delay: 1.5s; }
+
+    .heart {
+      font-size: 48px;
+      color: var(--bright);
+      text-shadow: 0 0 28px rgba(255,38,75,.55);
+      animation: heartbeat 2.2s ease-in-out infinite;
+    }
+
+    .primary-btn {
+      border: 1px solid var(--red);
+      background: var(--red);
+      color: white;
+      padding: 16px 26px;
+      font: 700 11px Arial, sans-serif;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 34px rgba(237,35,71,.17);
+      transition: .2s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      background: #ff3658;
+    }
+
+    .hint {
+      color: var(--muted);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .1em;
+      margin-top: 17px;
+    }
+
+    /* Flowers for my princess */
+    .flower-dedication {
+      position: relative;
+      z-index: 1;
+      width: min(760px, calc(100% - 36px));
+      margin: -22px auto 64px;
+      padding: 22px 16px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, transparent, rgba(237,35,71,.07), transparent);
+    }
+
+    .flower-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(12px, 4vw, 30px);
+      font-size: clamp(28px, 5vw, 43px);
+    }
+
+    .flower-row span {
+      display: inline-block;
+      animation: flower-sway 3.5s ease-in-out infinite;
+    }
+
+    .flower-row span:nth-child(2n) { animation-delay: -.8s; }
+
+    .flower-caption {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 12px auto 0;
+      max-width: 440px;
+    }
+
+    .flower-caption strong { color: var(--bright); font-weight: 400; }
+
+    /* Gift boxes */
+    .gift-section {
+      position: relative;
+      z-index: 1;
+      width: min(1000px, calc(100% - 36px));
+      margin: -20px auto 86px;
+      display: none;
+    }
+
+    .gift-section.visible {
+      display: block;
+      animation: rise .7s ease both;
+    }
+
+    .gift-heading { text-align: center; margin-bottom: 28px; }
+
+    .gift-heading > p, .memories-heading > p {
+      color: var(--bright);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .gift-heading h2, .memories-heading h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 400;
+      margin: 12px 0;
+    }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .gift-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(125,9,37,.2), transparent 72%), var(--surface);
+      padding: 25px 18px 22px;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,66,98,.65);
+    }
+
+    .gift-art {
+      position: relative;
+      width: 100px;
+      height: 82px;
+      margin: 12px auto 22px;
+    }
+
+    .gift-box {
+      position: absolute;
+      left: 9px;
+      right: 9px;
+      bottom: 0;
+      height: 55px;
+      border: 1px solid #ff7188;
+      background: linear-gradient(135deg, #b10e32, #59091e);
+    }
+
+    .gift-box:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 13px;
+      height: 9px;
+      background: #ffb2bf;
+    }
+
+    .gift-box:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 36px;
+      width: 10px;
+      background: #ffb2bf;
+    }
+
+    .gift-lid {
+      position: absolute;
+      z-index: 2;
+      left: 3px;
+      right: 3px;
+      top: 19px;
+      height: 15px;
+      background: linear-gradient(90deg, #ed2347, #ff6d85, #c51238);
+      border: 1px solid #ff9bab;
+      transition: transform .45s ease;
+    }
+
+    .gift-bow {
+      position: absolute;
+      z-index: 3;
+      top: 5px;
+      left: 37px;
+      width: 26px;
+      height: 19px;
+    }
+
+    .gift-bow:before, .gift-bow:after {
+      content: "";
+      position: absolute;
+      width: 15px;
+      height: 12px;
+      border: 3px solid #ff9bab;
+      border-radius: 80% 80% 20% 80%;
+    }
+
+    .gift-bow:before { left: -1px; transform: rotate(24deg); }
+    .gift-bow:after { right: -1px; transform: scaleX(-1) rotate(24deg); }
+
+    .gift-card.opened .gift-lid { transform: translateY(-25px) rotate(-9deg); }
+
+    .gift-number {
+      color: var(--bright);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .2em;
+    }
+
+    .gift-card h3 { font-size: 23px; font-weight: 400; margin: 10px 0; }
+
+    .gift-card > p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .gift-open-btn {
+      padding: 12px 14px;
+      width: 100%;
+      background: transparent;
+      color: var(--bright);
+      border: 1px solid rgba(255,66,98,.55);
+      font: 700 10px Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .gift-open-btn:hover { background: rgba(237,35,71,.12); }
+
+    .gift-message {
+      display: none;
+      margin-top: 17px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--text) !important;
+    }
+
+    .gift-card.opened .gift-message {
+      display: block;
+      animation: rise .5s ease both;
+    }
+
+    /* Photo and music section */
+    .memories-section {
+      display: none;
+      position: relative;
+      z-index: 1;
+      width: min(900px, calc(100% - 36px));
+      margin: 0 auto 86px;
+    }
+
+    .memories-section.open {
+      display: block;
+      animation: rise .8s ease both;
+    }
+
+    .memories-heading { text-align: center; margin-bottom: 28px; }
+
+    .memories-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+      gap: 20px;
+    }
+
+    .memory-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 22px;
+      text-align: center;
+    }
+
+    .photo-frame {
+      min-height: 230px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(237,35,71,.15), transparent), var(--bg);
+    }
+
+    .photo-frame img {
+      display: none;
+      width: 100%;
+      max-height: 420px;
+      object-fit: cover;
+    }
+
+    .photo-placeholder {
+      padding: 25px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .photo-placeholder span {
+      display: block;
+      font-size: 38px;
+      color: var(--bright);
+      margin-bottom: 10px;
+    }
+
+    .memory-card h3 { font-size: 24px; font-weight: 400; margin: 18px 0 10px; }
+
+    .memory-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .music-btn {
+      margin-top: 12px;
+      border: 1px solid var(--red);
+      color: var(--text);
+      background: transparent;
+      padding: 13px 18px;
+      font: 700 10px Arial, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .music-btn:hover { background: rgba(237,35,71,.14); }
+    .music-status { min-height: 38px; font-size: 12px !important; }
+
+    /* Love letter */
+    .message-section {
+      display: none;
+      position: relative;
+      z-index: 1;
+      width: min(760px, calc(100% - 36px));
+      margin: 0 auto 100px;
+      animation: rise .8s ease both;
+    }
+
+    .message-section.open { display: block; }
+
+    .letter {
+      position: relative;
+      padding: clamp(28px, 6vw, 62px);
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(110,13,37,.13), transparent 48%), var(--surface);
+      box-shadow: 0 28px 100px rgba(0,0,0,.15);
+    }
+
+    .letter:before, .letter:after {
+      content: "✦";
+      position: absolute;
+      color: var(--red);
+      font-size: 15px;
+    }
+
+    .letter:before { top: 20px; left: 22px; }
+    .letter:after { right: 22px; bottom: 20px; }
+
+    .letter-label {
+      color: var(--bright);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .letter h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.12;
+      font-weight: 400;
+      margin: 0 0 26px;
+    }
+
+    .letter p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.95;
+      margin: 0 0 18px;
+    }
+
+    .signature {
+      color: var(--text) !important;
+      font-style: italic;
+      font-size: 23px !important;
+      margin-top: 30px !important;
+    }
+
+    .signature span { color: var(--bright); }
+    .divider { width: 52px; height: 1px; background: var(--red); margin: 26px 0; }
+
+    .last-line {
+      text-align: center;
+      padding: 52px 20px 62px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .last-line p {
+      color: var(--muted);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .last-line strong {
+      display: block;
+      font-size: clamp(25px, 5vw, 42px);
+      font-weight: 400;
+      margin-top: 14px;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--line);
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font: 10px Arial, sans-serif;
+      letter-spacing: .12em;
+    }
+
+   .petal {
+  position: fixed;
+  top: -35px;
+  z-index: 4;
+  width: 15px;
+  height: 23px;
+  pointer-events: none;
+  border-radius: 80% 12% 75% 18%;
+  background: linear-gradient(
+    135deg,
+    #ff9aaf 0%,
+    #f52b58 38%,
+    #9e082b 78%,
+    #57051b 100%
+  );
+  box-shadow:
+    inset -2px -2px 4px rgba(76, 0, 18, .28),
+    0 2px 8px rgba(255, 35, 80, .16);
+  animation: fall linear forwards;
+  opacity: .9;
+  transform-origin: center;
+}
+
+.petal::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 68%;
+  left: 50%;
+  top: 14%;
+  background: rgba(255, 220, 226, .42);
+  transform: rotate(12deg);
+}
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      12% { transform: scale(1.13); }
+      24% { transform: scale(1); }
+      36% { transform: scale(1.08); }
+    }
+
+    @keyframes flower-sway {
+      0%, 100% { transform: rotate(-4deg) translateY(0); }
+      50% { transform: rotate(4deg) translateY(-4px); }
+    }
+
+    @keyframes halo {
+      0% { transform: scale(.72); opacity: .75; }
+      100% { transform: scale(1.55); opacity: 0; }
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+   @keyframes fall {
+  0% {
+    transform: translate3d(0, -5vh, 0) rotate(0deg) scale(.8);
+    opacity: 0;
+  }
+  8% { opacity: .92; }
+  50% {
+    transform: translate3d(42px, 55vh, 0) rotate(260deg) scale(1);
+  }
+  100% {
+    transform: translate3d(-35px, 112vh, 0) rotate(620deg) scale(.72);
+    opacity: 0;
+  }
+}
+
+    @media (max-width: 540px) {
+      .topline { width: calc(100% - 30px); padding: 21px 0; }
+      .top-note { font-size: 9px; }
+      .hero { min-height: 76vh; padding-top: 55px; padding-bottom: 65px; }
+      .flower-dedication { margin-bottom: 52px; }
+      .subtitle { font-size: 15px; }
+      .letter p { font-size: 16px; }
+      .gift-grid { grid-template-columns: 1fr; gap: 14px; max-width: 360px; margin: auto; }
+      .gift-card { padding: 20px; }
+      .gift-art { margin-top: 4px; }
+      .memories-grid { grid-template-columns: 1fr; }
+      .photo-frame { min-height: 190px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="site-root">
+    <header class="topline">
+      <div class="brand">A LITTLE <span>♥</span> SOMETHING</div>
+      <div class="top-note">MADE WITH LOVE · JUST FOR YOU</div>
+    </header>
+
+    <section class="hero" aria-labelledby="main-title">
+      <p class="eyebrow">For the one who has my heart</p>
+      <h1 id="main-title">Hey, <em>My princess.</em><br>This is for you.</h1>
+      <p class="subtitle">
+        There are things I want you to know, and a little surprise
+        I've been keeping just for you.
+      </p>
+
+      <div class="heart-wrap" aria-hidden="true">
+        <div class="heart-halo"></div>
+        <div class="heart-halo"></div>
+        <div class="heart">♥</div>
+      </div>
+
+      <button class="primary-btn" id="reveal-btn" type="button">
+        Open my heart ↗
+      </button>
+      <div class="hint">A LITTLE SURPRISE IS WAITING BELOW</div>
+    </section>
+
+    <section class="flower-dedication" aria-label="Flowers for my princess">
+      <div class="flower-row" aria-label="Tulips and lilies">
+        <span>🌷</span><span>❀</span><span>⚜️</span><span>❀</span><span>🌷</span>
+      </div>
+      <p class="flower-caption">
+        A little bouquet for you, <strong>My princess</strong> —
+        tulips for your sweetness, and lilies for the beauty you
+        bring into my world. ♥
+      </p>
+    </section>
+
+    <section class="gift-section" id="gifts" aria-labelledby="gift-title">
+      <div class="gift-heading">
+        <p>Three little presents</p>
+        <h2 id="gift-title">Choose a gift from my heart.</h2>
+        <div class="subtitle">
+          Each box holds a little something I want you to know.
+          Open them one by one. ♥
+        </div>
+      </div>
+
+      <div class="gift-grid">
+        <article class="gift-card">
+          <div class="gift-art" aria-hidden="true">
+            <div class="gift-box"></div><div class="gift-lid"></div><div class="gift-bow"></div>
+          </div>
+          <div class="gift-number">GIFT NO. 01</div>
+          <h3>A little reminder</h3>
+          <p>For the days you need to remember how special you are.</p>
+          <button class="gift-open-btn" type="button" aria-expanded="false">Open this gift ♥</button>
+          <p class="gift-message">
+            You make my world brighter just by being in it.
+            Never forget how wonderful you are, even on the days
+            you don't feel it.
+          </p>
+        </article>
+
+        <article class="gift-card">
+          <div class="gift-art" aria-hidden="true">
+            <div class="gift-box"></div><div class="gift-lid"></div><div class="gift-bow"></div>
+          </div>
+          <div class="gift-number">GIFT NO. 02</div>
+          <h3>A little confession</h3>
+          <p>Something my heart wants you to hear.</p>
+          <button class="gift-open-btn" type="button" aria-expanded="false">Open this gift ♥</button>
+          <p class="gift-message">
+            You cross my mind in the smallest moments. I catch
+            myself smiling at a memory of you, and suddenly an
+            ordinary day feels beautiful.
+          </p>
+        </article>
+
+        <article class="gift-card">
+          <div class="gift-art" aria-hidden="true">
+            <div class="gift-box"></div><div class="gift-lid"></div><div class="gift-bow"></div>
+          </div>
+          <div class="gift-number">GIFT NO. 03</div>
+          <h3>One little promise</h3>
+          <p>My favourite gift is getting to keep choosing you.</p>
+          <button class="gift-open-btn" type="button" aria-expanded="false">Open this gift ♥</button>
+          <p class="gift-message">
+            I promise to keep showing up with honesty, patience,
+            laughter, and care. I can't promise every day will be
+            perfect, but I want to keep making beautiful memories
+            with you.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Your photo and song go in the same folder as index.html -->
+    <section class="memories-section" id="memories" aria-labelledby="memories-title">
+      <div class="memories-heading">
+        <p>Our little corner</p>
+        <h2 id="memories-title">A memory, just for us.</h2>
+        <div class="subtitle">A favourite photo and a song to make you smile. ♥</div>
+      </div>
+
+      <div class="memories-grid">
+        <article class="memory-card">
+          <div class="photo-frame">
+            <!-- Replace our-photo.jpg with your actual image filename if needed -->
+            <img id="couple-photo" src="our-photo.jpg" alt="A favourite photo of us together">
+            <div class="photo-placeholder" id="photo-placeholder">
+              <span>♡</span>
+              Add your favourite photo as <strong>our-photo.jpg</strong>
+              in the same folder as index.html.
+            </div>
+          </div>
+          <h3>One of my favourite memories</h3>
+          <p>Every memory with you is a little treasure.</p>
+        </article>
+
+        <article class="memory-card">
+          <div style="font-size:42px;color:var(--bright);margin:12px 0">♫</div>
+          <h3>Our little song</h3>
+          <p>A song that reminds me of you, whenever you press play.</p>
+
+          <!-- Put your MP3 file beside index.html -->
+          <audio id="our-song" src="romantic-song.mp3" preload="none"></audio>
+
+          <button class="music-btn" id="music-btn" type="button">▶ Play our song</button>
+          <p class="music-status" id="music-status" aria-live="polite">
+            Add a music file named romantic-song.mp3 beside index.html.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="message-section" id="message" aria-live="polite" aria-hidden="true">
+      <article class="letter">
+        <div class="letter-label">A note from my heart</div>
+        <h2>To my princess,</h2>
+
+        <p>
+          I may not always find the perfect words, but I hope you
+          never have to wonder how much you mean to me.
+        </p>
+
+        <p>
+          You have a way of making ordinary moments feel special.
+          Your smile stays in my mind, your laughter makes my days
+          brighter, and just knowing you're in my life means more
+          than I can explain.
+        </p>
+
+        <p>
+          This little website can't hold everything I feel, but
+          it's one small way of reminding you that you are
+          appreciated, cared for, and loved. Not just on special
+          days, but in the quiet, ordinary moments too.
+        </p>
+
+        <p>
+          Whatever life brings, I hope we keep choosing kindness,
+          honesty, laughter, and each other. You are someone truly
+          special to me, and I'm grateful for every moment we get
+          to share.
+        </p>
+
+        <div class="divider"></div>
+        <p class="signature">
+          Always thinking of you, <span>♥</span><br>
+          <strong id="sender-name">Your person</strong>
+        </p>
+      </article>
+    </section>
+
+    <section class="last-line" id="final-note" hidden>
+      <p>And if you remember just one thing…</p>
+      <strong>You are loved. <span>Always.</span> ♥</strong>
+    </section>
+
+    <footer>
+      CRAFTED WITH A LITTLE COURAGE &amp; A LOT OF LOVE
+      <span style="color:var(--bright)">♥</span>
+    </footer>
+  </main>
+
+  <script>
+    const revealButton = document.getElementById('reveal-btn');
+    const message = document.getElementById('message');
+    const finalNote = document.getElementById('final-note');
+    const gifts = document.getElementById('gifts');
+    const memories = document.getElementById('memories');
+
+    const couplePhoto = document.getElementById('couple-photo');
+    const photoPlaceholder = document.getElementById('photo-placeholder');
+
+    const ourSong = document.getElementById('our-song');
+    const musicButton = document.getElementById('music-btn');
+    const musicStatus = document.getElementById('music-status');
+
+    // Show the photo if the image file exists.
+    couplePhoto.addEventListener('load', () => {
+      couplePhoto.style.display = 'block';
+      photoPlaceholder.style.display = 'none';
+    });
+
+    // Keep the placeholder visible if the photo has not been added.
+    couplePhoto.addEventListener('error', () => {
+      couplePhoto.style.display = 'none';
+      photoPlaceholder.style.display = 'block';
+    });
+
+    // Play and pause the song.
+    musicButton.addEventListener('click', async () => {
+      if (ourSong.paused) {
+        try {
+          await ourSong.play();
+          musicButton.textContent = 'Ⅱ Pause our song';
+          musicStatus.textContent = 'Playing just for you. ♥';
+        } catch (error) {
+          musicStatus.textContent =
+            'Check that romantic-song.mp3 is in the same folder as index.html.';
+        }
+      } else {
+        ourSong.pause();
+        musicButton.textContent = '▶ Play our song';
+        musicStatus.textContent = 'Paused — press play whenever you like. ♥';
+      }
+    });
+
+    ourSong.addEventListener('ended', () => {
+      musicButton.textContent = '▶ Play our song';
+      musicStatus.textContent = 'A song for you, always. ♥';
+    });
+
+    // Make falling hearts and flowers.
+   
+function makePetals() {
+  const shades = [
+    ['#ffb2c1', '#f52b58', '#9e082b'],
+    ['#ff7d9b', '#d90e3d', '#65051e'],
+    ['#ffd0d9', '#ff4268', '#b30b31'],
+    ['#e94b70', '#a8082e', '#4b0618']
+  ];
+
+  for (let i = 0; i < 3; i += 1) {
+    const petal = document.createElement('span');
+    const shade = shades[Math.floor(Math.random() * shades.length)];
+    const width = 9 + Math.random() * 12;
+
+    petal.className = 'petal';
+    petal.style.left = `${Math.random() * 100}vw`;
+    petal.style.width = `${width}px`;
+    petal.style.height = `${width * (1.25 + Math.random() * .5)}px`;
+    petal.style.background =
+      `linear-gradient(135deg, ${shade[0]} 0%, ${shade[1]} 42%, ${shade[2]} 100%)`;
+    petal.style.animationDuration = `${6 + Math.random() * 6}s`;
+    petal.style.animationDelay = `${Math.random() * .7}s`;
+    petal.style.filter = `blur(${Math.random() * .55}px)`;
+    petal.style.opacity = `${.58 + Math.random() * .38}`;
+
+    document.body.appendChild(petal);
+    window.setTimeout(() => petal.remove(), 13000);
+  }
+}
+
+makePetals();
+window.setInterval(makePetals, 650);
+
+
+    // Reveal the gifts, memories and love letter.
+    revealButton.addEventListener('click', () => {
+      gifts.classList.add('visible');
+      memories.classList.add('open');
+      message.classList.add('open');
+
+      message.setAttribute('aria-hidden', 'false');
+      finalNote.hidden = false;
+
+      revealButton.textContent = 'Your surprise is open ♥';
+      revealButton.disabled = true;
+      revealButton.style.opacity = '.75';
+
+      makePetals();
+
+      window.setTimeout(() => {
+        message.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 120);
+    });
+
+    // Make each gift box open and close when clicked.
+    document.querySelectorAll('.gift-open-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.gift-card');
+        const isOpen = card.classList.toggle('opened');
+
+        button.setAttribute('aria-expanded', String(isOpen));
+        button.textContent = isOpen ? 'Gift opened ♥' : 'Open this gift ♥';
+
+        if (isOpen) makePetals();
+      });
+    });
+  </script>
+</body>
+</html>
